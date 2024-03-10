@@ -1,5 +1,22 @@
+data "aws_ami" "ubuntu" {
+  most_recent = true
+
+  filter {
+    name   = "name"
+    values = ["ubuntu/images/hvm-ssd/ubuntu-jammy-22.04-amd64-server-*"]
+  }
+
+  filter {
+    name   = "virtualization-type"
+    values = ["hvm"]
+  }
+
+  owners = ["099720109477"] # Canonical
+}
+
+
 resource "aws_instance" "frontend_ec2" {
-  ami           = "ami-0f34c5ae932e6f0e4"
+  ami           = data.aws_ami.ubuntu.id
   instance_type = "t2.micro"    # 1 VCPU & 1GB RAM
   subnet_id     = aws_subnet.Public_subnet.id
   vpc_security_group_ids =[aws_security_group.public_security_group.id ]
@@ -14,7 +31,7 @@ resource "aws_instance" "frontend_ec2" {
 
 
 resource "aws_instance" "Backend_ec2" {
-  ami           = "ami-0f34c5ae932e6f0e4"
+  ami           = data.aws_ami.ubuntu.id
   instance_type = "t2.micro"    # 1 VCPU & 1GB RAM
   subnet_id     = aws_subnet.Public_subnet.id
   vpc_security_group_ids =[aws_security_group.public_security_group.id ]
