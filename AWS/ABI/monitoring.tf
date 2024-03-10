@@ -48,7 +48,7 @@ resource "aws_cloudwatch_metric_alarm" "nlb_healthyhosts" {
   namespace           = "AWS/EC2"
   period              = "60"
   statistic           = "Average"
-  threshold           = "0.01"
+  threshold           = "50"
   alarm_description   = "cpu usage"
   actions_enabled     = "true"
   alarm_actions       = [aws_sns_topic.alarm.arn]
